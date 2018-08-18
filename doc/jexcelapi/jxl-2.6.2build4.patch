@@ -1,0 +1,26 @@
+Index: build/build.xml
+===================================================================
+RCS file: /storage/Repository/Arch/JExcelApi/build/build.xml,v
+retrieving revision 1.1
+diff -u -r1.1 build.xml
+--- build/build.xml	28 Nov 2006 10:30:08 -0000	1.1
++++ build/build.xml	18 Dec 2006 16:16:28 -0000
+@@ -43,7 +43,10 @@
+            classpath=".:${loggerClasspath}" 
+            srcdir="${sourceDir}"
+            debug="true" 
+-           deprecation="on">
++           deprecation="on"
++           source="1.4"
++           target="1.4"
++           fork="true" >
+       <include name="jxl/**" />
+       <include name="common/*" />
+       <include name="common/log/LoggerName.java" />
+@@ -55,6 +58,7 @@
+       <fileset dir="${resourcesDir}">
+         <include name="*.properties" />
+       </fileset>
++      <zipfileset dir="${sourceDir}" includes="**/*" prefix="src" />
+     </jar>
+   </target>

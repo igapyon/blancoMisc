@@ -1,0 +1,56 @@
+Index: src/jxl/biff/StringHelper.java
+===================================================================
+RCS file: /storage/Repository/Arch/JExcelApi/src/jxl/biff/StringHelper.java,v
+retrieving revision 1.1
+diff -u -r1.1 StringHelper.java
+--- src/jxl/biff/StringHelper.java	28 Nov 2006 10:30:09 -0000	1.1
++++ src/jxl/biff/StringHelper.java	21 Dec 2006 13:49:32 -0000
+@@ -86,7 +86,7 @@
+   {
+     try
+     {
+-      byte[] b = s.getBytes("UnicodeLittle");
++      byte[] b = s.getBytes("UTF-16LE");
+ 
+       // Sometimes this method writes out the unicode
+       // identifier
+@@ -173,7 +173,7 @@
+     {
+       byte[] b = new byte[length * 2];
+       System.arraycopy(d, pos, b, 0, length * 2);
+-      return new String(b, "UnicodeLittle");
++      return new String(b, "UTF-16LE");
+     }
+     catch (UnsupportedEncodingException e)
+     {
+Index: src/jxl/read/biff/BoundsheetRecord.java
+===================================================================
+RCS file: /storage/Repository/Arch/JExcelApi/src/jxl/read/biff/BoundsheetRecord.java,v
+retrieving revision 1.1
+diff -u -r1.1 BoundsheetRecord.java
+--- src/jxl/read/biff/BoundsheetRecord.java	28 Nov 2006 10:30:09 -0000	1.1
++++ src/jxl/read/biff/BoundsheetRecord.java	21 Dec 2006 13:49:34 -0000
+@@ -75,7 +75,13 @@
+       // Standard ASCII encoding
+       byte[] bytes = new byte[length];
+       System.arraycopy(data, 8, bytes, 0, length);
+-      name = new String(bytes);
++
++      try {
++        name = new String(bytes, "ISO8859_1");
++      } catch (UnsupportedEncodingException e) {
++        // fail silently
++        name = "Error";
++      }      
+     }
+     else
+     {
+@@ -84,7 +90,7 @@
+       System.arraycopy(data, 8, bytes, 0, length * 2);
+       try
+       {
+-        name = new String(bytes, "UnicodeLittle");
++        name = new String(bytes, "UTF-16LE");
+       }
+       catch (UnsupportedEncodingException e)
+       {

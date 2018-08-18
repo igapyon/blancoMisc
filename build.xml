@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="BlancoMisc" default="build" basedir=".">
+	<property name="project" value="blancoMisc" />
+
+	<target name="pack">
+		<echo>packing project</echo>
+
+		<tstamp>
+			<format property="TSTAMP_BACKUP" pattern="yyyyMMdd" />
+		</tstamp>
+
+		<property name="project.zip" value="${project}-${TSTAMP_BACKUP}.zip" />
+
+		<delete file="${project.zip}" />
+		<zip destfile="${project.zip}">
+			<zipfileset dir="." prefix="${project}" excludes="${project}*.zip,**/*.class" />
+		</zip>
+
+	</target>
+
+	<target name="build" depends="pack">
+	</target>
+
+</project>
